@@ -1,8 +1,14 @@
-- name: gcr.io/cloud-builders/npm
-  args: [ install ]
-
-- name: gcr.io/cloud-builders/npm
-  args: [ run, build, --prod ]
-
-- name: gcr.io/cloud-builders/gcloud
-  args: [ app, deploy ]
+steps:
+# Install Angular
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['install','-g','@angular/cli' ]
+# Install Dependencies
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['install']
+# build Project in mode Prod.
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['run','ng','build','--prod','--aot']
+# deploy in App Engine
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ["app", "deploy"]
+timeout: "3000s"
